@@ -13,7 +13,7 @@ namespace Task_Day_2_ASP.Controllers
     public class CoursesController : Controller
     {
         //private readonly LearningDbContext _context;
-        LearningDbContext _context = new LearningDbContext();
+        LearningDbContext _context ;
 
         public CoursesController(LearningDbContext context)
         {

@@ -6,7 +6,7 @@ namespace Task_Day_2_ASP.Models.ClassBL
 {
     public class CourseBL
     {
-        LearningDbContext Context = new LearningDbContext();
+        LearningDbContext Context ;
 
         public List<Course> GetAll()
         {

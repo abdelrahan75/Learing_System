@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +13,7 @@ namespace Task_Day_2_ASP.Controllers
     public class DepartmentsController : Controller
     {
         //private readonly LearningDbContext _context;
-        LearningDbContext _context = new LearningDbContext();
+        LearningDbContext _context ;
 
         public DepartmentsController(LearningDbContext context)
         {

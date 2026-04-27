@@ -5,10 +5,12 @@ namespace Task_Day_2_ASP.Data.Dbcontext
 {
     public class LearningDbContext :DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=testmvc;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=testmvc;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+        //}
+
+        public LearningDbContext (DbContextOptions options) : base(options) { }
 
         public DbSet<Teacher> Teachers { get; set; }
 

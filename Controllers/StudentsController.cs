@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Task_Day_2_ASP.Data.Dbcontext;
 using Task_Day_2_ASP.Models.ClassBL;
 using Task_Day_2_ASP.Models.Entities;
+using Task_Day_2_ASP.Models.Reposiotoriey;
 using Task_Day_2_ASP.Models.ViewModel;
 
 namespace Task_Day_2_ASP.Controllers
@@ -15,31 +16,29 @@ namespace Task_Day_2_ASP.Controllers
     public class StudentsController : Controller
     {
         //private readonly LearningDbContext _context;
-        LearningDbContext _context = new LearningDbContext();
+        IstudentRepo _context;
 
-        public StudentsController(LearningDbContext context)
+        public StudentsController(IstudentRepo istudentRepo)
         {
-            _context = context;
+            _context = istudentRepo;
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var learningDbContext = _context.Students.Include(s => s.Department);
-            return View(await learningDbContext.ToListAsync());
+             
+            return View("Index",_context.GetAll());
         }
 
         // GET: Students/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var student = await _context.Students
-                .Include(s => s.Department)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            Student student = _context.GetById((int)id);
             if (student == null)
             {
                 return NotFound();
@@ -51,7 +50,7 @@ namespace Task_Day_2_ASP.Controllers
         // GET: Students/Create
         public IActionResult Create()
         {
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "MgrName");
+            ViewData["DepartmentId"] = new SelectList(_context.GetAll(), "Id", "MgrName");
             return View();
         }
 
@@ -60,32 +59,32 @@ namespace Task_Day_2_ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Age,DepartmentId")] Student student)
+        public IActionResult Create([Bind("Id,Name,Age,DepartmentId")] Student student)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(student);
-                await _context.SaveChangesAsync();
+                 _context.Save();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "MgrName", student.DepartmentId);
+            ViewData["DepartmentId"] = new SelectList(_context.GetAll(), "Id", "MgrName", student.DepartmentId);
             return View(student);
         }
 
         // GET: Students/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var student = await _context.Students.FindAsync(id);
+            Student student =  _context.GetByIdWithLoading((int)id);
             if (student == null)
             {
                 return NotFound();
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "MgrName", student.DepartmentId);
+            ViewData["DepartmentId"] = new SelectList(_context.GetAll(), "Id", "MgrName", student.DepartmentId);
             return View(student);
         }
 
@@ -94,7 +93,7 @@ namespace Task_Day_2_ASP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,DepartmentId")] Student student)
+        public  IActionResult Edit(int id, [Bind("Id,Name,Age,DepartmentId")] Student student)
         {
             if (id != student.Id)
             {
@@ -106,7 +105,7 @@ namespace Task_Day_2_ASP.Controllers
                 try
                 {
                     _context.Update(student);
-                    await _context.SaveChangesAsync();
+                     _context.Save();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -121,21 +120,19 @@ namespace Task_Day_2_ASP.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "MgrName", student.DepartmentId);
+            ViewData["DepartmentId"] = new SelectList(_context.GetAll(), "Id", "MgrName", student.DepartmentId);
             return View(student);
         }
 
         // GET: Students/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var student = await _context.Students
-                .Include(s => s.Department)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var student = _context.GetById((int)id);
             if (student == null)
             {
                 return NotFound();
@@ -147,37 +144,41 @@ namespace Task_Day_2_ASP.Controllers
         // POST: Students/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var student = await _context.Students.FindAsync(id);
+            var student = _context.GetById(id);
             if (student != null)
             {
-                _context.Students.Remove(student);
+                _context.Delete(student);
             }
 
-            await _context.SaveChangesAsync();
+             _context.Save();
             return RedirectToAction(nameof(Index));
         }
 
         private bool StudentExists(int id)
         {
-            return _context.Students.Any(e => e.Id == id);
+           if (_context.GetById(id) is Student)
+            {
+                return true;
+            }
+           else return false;
         }
 
         public IActionResult ShowResult(int StuId,int CrsId)
         {
-            Student std = _context.Students.FirstOrDefault(s=>s.Id==StuId);
-            Course Crs = _context.Courses.FirstOrDefault(c=>c.Id==CrsId);
-            StuCrsRes stuCourse = _context.StuCrsRes
-        .FirstOrDefault(sc => sc.StudentId == StuId && sc.CourseId == CrsId);
+            Student std = _context.GetById(StuId);
+          //  Course Crs = _context.Courses.FirstOrDefault(c=>c.Id==CrsId);
+          //  StuCrsRes stuCourse = _context.StuCrsRes
+      //  .FirstOrDefault(sc => sc.StudentId == StuId && sc.CourseId == CrsId);
 
             StudentCourseResultViewModel  vm = new StudentCourseResultViewModel();
 
             vm.StudentName = std.Name;
-            vm.CourseName = Crs.Name;
-            vm.Degree = stuCourse.Degree;
+           // vm.CourseName = Crs.Name;
+           // vm.Degree = stuCourse.Degree;
 
-            vm.Color = stuCourse.Degree >= Crs.MinDegree ? "green" : "red";
+          //  vm.Color = stuCourse.Degree >= Crs.MinDegree ? "green" : "red";
             return View(vm);
 
 
