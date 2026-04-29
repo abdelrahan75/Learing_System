@@ -41,5 +41,10 @@ namespace Task_Day_2_ASP.Models.Reposiotoriey
         {
             return _context.Students.Include(S => S.Department).FirstOrDefault(d => d.Id == id);
         }
+        
+        public List<Department> GetAllDepartments()
+        {
+            return _context.Departments.ToList();
+        }
     }
 }

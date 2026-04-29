@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Task_Day_2_ASP.Data.Dbcontext;
-using Task_Day_2_ASP.Models.ClassBL;
 using Task_Day_2_ASP.Models.Entities;
 using Task_Day_2_ASP.Models.Reposiotoriey;
 using Task_Day_2_ASP.Models.ViewModel;
@@ -50,7 +49,7 @@ namespace Task_Day_2_ASP.Controllers
         // GET: Students/Create
         public IActionResult Create()
         {
-            ViewData["DepartmentId"] = new SelectList(_context.GetAll(), "Id", "MgrName");
+            ViewData["DepartmentId"] = new SelectList(_context.GetAllDepartments(), "Id", "MgrName");
             return View();
         }
 

@@ -11,5 +11,7 @@ namespace Task_Day_2_ASP.Models.Reposiotoriey
         public List<Student> GetAll();
         public Student GetById(int id);
         public Student GetByIdWithLoading(int id);
+
+        public List<Department> GetAllDepartments();
     }
 }

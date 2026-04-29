@@ -1,4 +1,4 @@
-using Task_Day_2_ASP.Data.Dbcontext;
+﻿using Task_Day_2_ASP.Data.Dbcontext;
 using Microsoft.EntityFrameworkCore;
 using Task_Day_2_ASP.Models.Reposiotoriey;
 using Microsoft.Extensions.Options;
@@ -14,21 +14,15 @@ namespace Task_Day_2_ASP
 
 
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<LearningDbContext>();
+            
             builder.Services.AddScoped<IstudentRepo, StudentRepo>(); // ? ?????? ???
+                                                                     // خلي AddDbContext مرة واحدة بس، والـ connection string صح:
             builder.Services.AddDbContext<LearningDbContext>(options =>
-            {
-                options.UseSqlServer("cs");
-            });
+                options.UseSqlServer(builder.Configuration.GetConnectionString("cs")));
+
             var app = builder.Build();
 
-            // ? ???? ?????? ???????
-            app.UseRouting();
-
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-
+            #region HTTP request pipeline
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -45,6 +39,7 @@ namespace Task_Day_2_ASP
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
+            #endregion
         }
     }
 }
