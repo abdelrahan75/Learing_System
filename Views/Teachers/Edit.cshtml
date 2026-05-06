@@ -1,0 +1,77 @@
+﻿@model Task_Day_2_ASP.Models.Entities.Teacher
+@{
+    ViewData["Title"] = "Edit Teacher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header" style="background:linear-gradient(135deg,#f59e0b,#d97706)">
+    <h1><i class="bi bi-pencil-square me-2"></i>Edit Teacher</h1>
+    <p>Update details for <strong>@Model.Name</strong></p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="card ls-card">
+            <div class="card-body p-4">
+                <form asp-action="Edit" id="editTeacherForm" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 py-2 mb-3"></div>
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label"><i class="bi bi-person me-1 text-warning"></i>Name</label>
+                        <input asp-for="Name" class="form-control" id="inp_Name" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Salary" class="form-label"><i class="bi bi-currency-dollar me-1 text-warning"></i>Salary</label>
+                        <input asp-for="Salary" class="form-control" id="inp_Salary" type="number" min="0" step="0.01" />
+                        <span asp-validation-for="Salary" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="DepartmentId" class="form-label"><i class="bi bi-building me-1 text-warning"></i>Department</label>
+                        <select asp-for="DepartmentId" class="form-select" asp-items="ViewBag.DepartmentId" id="inp_Dept">
+                            <option value="">— Select Department —</option>
+                        </select>
+                        <span asp-validation-for="DepartmentId" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-4">
+                        <label asp-for="CourseId" class="form-label"><i class="bi bi-journal-bookmark me-1 text-warning"></i>Course</label>
+                        <select asp-for="CourseId" class="form-select" asp-items="ViewBag.CourseId">
+                            <option value="">— Select Course —</option>
+                        </select>
+                        <span asp-validation-for="CourseId" class="text-danger small"></span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-warning px-4">
+                            <i class="bi bi-save me-1"></i> Save Changes
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        (function () {
+            const form = document.getElementById('editTeacherForm');
+            const name = document.getElementById('inp_Name');
+            const sal  = document.getElementById('inp_Salary');
+            const dept = document.getElementById('inp_Dept');
+            const se   = (el, m) => { el.classList.add('is-invalid'); el.classList.remove('is-valid'); const s=el.nextElementSibling; if(s&&s.tagName==='SPAN')s.textContent=m; return false; };
+            const ce   = (el)    => { el.classList.remove('is-invalid'); el.classList.add('is-valid'); const s=el.nextElementSibling; if(s&&s.tagName==='SPAN')s.textContent=''; return true; };
+            const vN   = () => { const v=name.value.trim(); if(!v) return se(name,'Required.'); if(!/^[a-zA-Z\s.]+$/.test(v)) return se(name,'Letters only.'); return ce(name); };
+            const vS   = () => { const v=parseFloat(sal.value); if(sal.value===''||isNaN(v)||v<0) return se(sal,'Valid salary required.'); return ce(sal); };
+            const vD   = () => { if(!dept.value) return se(dept,'Select a department.'); return ce(dept); };
+            name.addEventListener('input', vN); sal.addEventListener('input', vS); dept.addEventListener('change', vD);
+            form.addEventListener('submit', e => { if(!(vN()&vS()&vD())) e.preventDefault(); });
+        })();
+    </script>
+}

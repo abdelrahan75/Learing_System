@@ -1,18 +1,18 @@
-﻿@model IEnumerable<Task_Day_2_ASP.Models.Entities.Student>
+﻿@model IEnumerable<Task_Day_2_ASP.Models.Entities.Teacher>
 @{
-    ViewData["Title"] = "Students";
+    ViewData["Title"] = "Teachers";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="page-header" style="background:linear-gradient(135deg,#3b82f6,#6366f1)">
+<div class="page-header" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
         <div>
-            <h1><i class="bi bi-person-badge me-2"></i>Students</h1>
-            <p>Total: <strong>@Model.Count()</strong> students enrolled</p>
+            <h1><i class="bi bi-person-workspace me-2"></i>Teachers</h1>
+            <p>Total: <strong>@Model.Count()</strong> teachers on staff</p>
         </div>
-        <a asp-action="Create" class="btn btn-white text-primary fw-bold px-4"
-           style="background:rgba(255,255,255,0.95)">
-            <i class="bi bi-plus-circle me-1"></i> Add New Student
+        <a asp-action="Create" class="btn fw-bold px-4"
+           style="background:rgba(255,255,255,0.95);color:#7c3aed;">
+            <i class="bi bi-plus-circle me-1"></i> Add Teacher
         </a>
     </div>
 </div>
@@ -23,9 +23,10 @@
             <table class="table ls-table mb-0">
                 <thead>
                     <tr>
-                        <th><i class="bi bi-hash me-1"></i>#</th>
+                        <th>#</th>
                         <th><i class="bi bi-person me-1"></i>Name</th>
-                        <th><i class="bi bi-calendar me-1"></i>Age</th>
+                        <th><i class="bi bi-currency-dollar me-1"></i>Salary</th>
+                        <th><i class="bi bi-journal-bookmark me-1"></i>Course</th>
                         <th><i class="bi bi-building me-1"></i>Department</th>
                         <th class="text-center">Actions</th>
                     </tr>
@@ -37,19 +38,25 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td><span class="badge bg-primary rounded-pill">@(i++)</span></td>
+                            <td><span class="badge rounded-pill" style="background:#ede9fe;color:#6d28d9;">@(i++)</span></td>
                             <td class="fw-500">@item.Name</td>
-                            <td><span class="badge bg-info text-white rounded-pill">@item.Age yrs</span></td>
+                            <td>
+                                <span class="badge bg-success text-white rounded-pill px-3">
+                                    @item.Salary.ToString("C")
+                                </span>
+                            </td>
+                            <td>@(item.Course?.Name ?? "—")</td>
                             <td>
                                 @if (item.Department != null)
                                 {
-                                    <span class="badge rounded-pill px-3 py-1"
-                                          style="background:#ede9fe;color:#6d28d9;font-weight:600">
+                                    <span class="badge rounded-pill px-2"
+                                          style="background:#fef3c7;color:#92400e;font-weight:600">
                                         @item.Department.Name
                                     </span>
                                 }
                                 else
                                 {
+
                                     <span class="text-muted">—</span>
                                 }
                             </td>
@@ -69,9 +76,9 @@
                     @if (!Model.Any())
                     {
                         <tr>
-                            <td colspan="5" class="text-center py-5 text-muted">
+                            <td colspan="6" class="text-center py-5 text-muted">
                                 <i class="bi bi-inbox" style="font-size:2rem;display:block;margin-bottom:0.5rem;"></i>
-                                No students found. <a asp-action="Create">Add the first student.</a>
+                                No teachers found. <a asp-action="Create">Add the first teacher.</a>
                             </td>
                         </tr>
                     }

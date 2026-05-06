@@ -1,14 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Task_Day_2_ASP.Data.Configures;
 using Task_Day_2_ASP.Models.Entities;
 namespace Task_Day_2_ASP.Data.Dbcontext
     
 {
     public class LearningDbContext :DbContext
     {
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=testmvc;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
-        //}
+        
 
         public LearningDbContext (DbContextOptions options) : base(options) { }
 
@@ -24,6 +22,7 @@ namespace Task_Day_2_ASP.Data.Dbcontext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration( new StudentConfigure());
             modelBuilder.Entity<StuCrsRes>()
                 .HasKey(s => new { s.StudentId, s.CourseId });
 

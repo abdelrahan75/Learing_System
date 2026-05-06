@@ -1,42 +1,64 @@
 ﻿@model IEnumerable<Task_Day_2_ASP.Models.Entities.Department>
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Departments";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="page-header" style="background:linear-gradient(135deg,#f59e0b,#d97706)">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div>
+            <h1><i class="bi bi-building me-2"></i>Departments</h1>
+            <p>Total: <strong>@Model.Count()</strong> departments</p>
+        </div>
+        <a asp-action="Create" class="btn fw-bold px-4"
+           style="background:rgba(255,255,255,0.95);color:#d97706;">
+            <i class="bi bi-plus-circle me-1"></i> Add Department
+        </a>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MgrName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MgrName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="card ls-card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table ls-table mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th><i class="bi bi-building me-1"></i>Department Name</th>
+                        <th><i class="bi bi-person-check me-1"></i>Manager</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int i = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><span class="badge rounded-pill" style="background:#fef3c7;color:#92400e;">@(i++)</span></td>
+                            <td class="fw-500">
+                                <i class="bi bi-building-fill me-1 text-warning"></i>@item.Name
+                            </td>
+                            <td class="text-muted">@item.MgrName</td>
+                            <td class="text-center">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-1"><i class="bi bi-pencil"></i></a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info me-1"><i class="bi bi-eye"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox" style="font-size:2rem;display:block;margin-bottom:0.5rem;"></i>
+                                No departments found. <a asp-action="Create">Add the first one.</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -7,14 +7,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Task_Day_2_ASP.Data.Dbcontext;
 using Task_Day_2_ASP.Models.Entities;
-using Task_Day_2_ASP.Models.Reposiotoriey;
+using Task_Day_2_ASP.Models.Reposiotoriey.RepoStudent;
 using Task_Day_2_ASP.Models.ViewModel;
 
 namespace Task_Day_2_ASP.Controllers
 {
     public class StudentsController : Controller
     {
-        //private readonly LearningDbContext _context;
+       
         IstudentRepo _context;
 
         public StudentsController(IstudentRepo istudentRepo)
@@ -25,8 +25,8 @@ namespace Task_Day_2_ASP.Controllers
         // GET: Students
         public IActionResult Index()
         {
-             
-            return View("Index",_context.GetAll());
+
+            return View(_context.GetAll());
         }
 
         // GET: Students/Details/5
@@ -37,7 +37,7 @@ namespace Task_Day_2_ASP.Controllers
                 return NotFound();
             }
 
-            Student student = _context.GetById((int)id);
+            Student student = _context.GetByIdWithLoading((int)id);
             if (student == null)
             {
                 return NotFound();
@@ -46,16 +46,32 @@ namespace Task_Day_2_ASP.Controllers
             return View(student);
         }
 
+        public IActionResult DetailsOfVM(int id)
+        {
+            Student student = _context.GetByIdWithLoading(id);
+            if (student == null) return NotFound();
+
+            var vm = new StudentViewModel
+            {
+                Id = student.Id,
+                Name = student.Name,
+                Age = student.Age,
+                DepartmentId = student.DepartmentId,
+                DepartmentName = student.Department?.Name
+            };
+
+            return View("DetailsOfVm", vm);
+        }
+
         // GET: Students/Create
         public IActionResult Create()
         {
-            ViewData["DepartmentId"] = new SelectList(_context.GetAllDepartments(), "Id", "MgrName");
+            ViewData["DepartmentId"] = new SelectList(_context.GetAllDepartments(), "Id", "Name");
             return View();
         }
 
         // POST: Students/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,Name,Age,DepartmentId")] Student student)
@@ -63,63 +79,50 @@ namespace Task_Day_2_ASP.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(student);
-                 _context.Save();
+                _context.Save();
+                TempData["NotificationAdded"] = $"student with id {student.Id} and Name {student.Name} is Added";
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentId"] = new SelectList(_context.GetAll(), "Id", "MgrName", student.DepartmentId);
+            // ✅ Fixed: GetAllDepartments() + consistent "Name" field
+            ViewData["DepartmentId"] = new SelectList(_context.GetAllDepartments(), "Id", "Name", student.DepartmentId);
             return View(student);
         }
 
         // GET: Students/Edit/5
         public IActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            Student student =  _context.GetByIdWithLoading((int)id);
-            if (student == null)
-            {
-                return NotFound();
-            }
-            ViewData["DepartmentId"] = new SelectList(_context.GetAll(), "Id", "MgrName", student.DepartmentId);
+            Student student = _context.GetByIdWithLoading((int)id);
+            if (student == null) return NotFound();
+
+            ViewData["DepartmentId"] = new SelectList(_context.GetAllDepartments(), "Id", "Name", student.DepartmentId);
             return View(student);
         }
 
-        // POST: Students/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  IActionResult Edit(int id, [Bind("Id,Name,Age,DepartmentId")] Student student)
+        public IActionResult Edit(int id, [Bind("Id,Name,Age,DepartmentId")] Student student)
         {
-            if (id != student.Id)
-            {
-                return NotFound();
-            }
+            if (id != student.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(student);
-                     _context.Save();
+                    _context.Save();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentExists(student.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (_context.GetById(student.Id) == null) return NotFound();
+                    throw;
                 }
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentId"] = new SelectList(_context.GetAll(), "Id", "MgrName", student.DepartmentId);
+            ViewData["DepartmentId"] = new SelectList(_context.GetAllDepartments(), "Id", "Name", student.DepartmentId);
             return View(student);
         }
 
@@ -131,7 +134,7 @@ namespace Task_Day_2_ASP.Controllers
                 return NotFound();
             }
 
-            var student = _context.GetById((int)id);
+            Student student = _context.GetById((int)id);
             if (student == null)
             {
                 return NotFound();
@@ -164,23 +167,25 @@ namespace Task_Day_2_ASP.Controllers
            else return false;
         }
 
-        public IActionResult ShowResult(int StuId,int CrsId)
+        public IActionResult ShowResult(int StuId, int CrsId)
         {
-            Student std = _context.GetById(StuId);
-          //  Course Crs = _context.Courses.FirstOrDefault(c=>c.Id==CrsId);
-          //  StuCrsRes stuCourse = _context.StuCrsRes
-      //  .FirstOrDefault(sc => sc.StudentId == StuId && sc.CourseId == CrsId);
+            Student student = _context.GetById(StuId);
+            Course course = _context.GetCourseById(CrsId);
+            StuCrsRes result = _context.GetStudentCourseResult(StuId, CrsId);
 
-            StudentCourseResultViewModel  vm = new StudentCourseResultViewModel();
+            if (student == null || course == null || result == null)
+                return NotFound();
 
-            vm.StudentName = std.Name;
-           // vm.CourseName = Crs.Name;
-           // vm.Degree = stuCourse.Degree;
-
-          //  vm.Color = stuCourse.Degree >= Crs.MinDegree ? "green" : "red";
+            var vm = new StudentCourseResultViewModel
+            {
+                StudentName = student.Name ?? string.Empty,
+                CourseName = course.Name ?? string.Empty,
+                Degree = result.Degree,
+                Color = result.Degree >= course.MinDegree ? "green" : "red"
+            };
             return View(vm);
-
-
+      
+  
         }
-    }
+   }
 }

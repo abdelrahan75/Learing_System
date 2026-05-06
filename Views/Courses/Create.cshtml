@@ -1,45 +1,95 @@
 ﻿@model Task_Day_2_ASP.Models.Entities.Course
-
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add Course";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="page-header" style="background:linear-gradient(135deg,#10b981,#059669)">
+    <h1><i class="bi bi-journal-plus me-2"></i>Add New Course</h1>
+    <p>Fill in the course details below.</p>
+</div>
 
-<h4>Course</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="card ls-card">
+            <div class="card-body p-4">
+                <form asp-action="Create" id="createCourseForm" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 py-2 mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">
+                            <i class="bi bi-bookmark me-1 text-success"></i>Course Name
+                        </label>
+                        <input asp-for="Name" class="form-control" placeholder="e.g. Mathematics" id="inp_Name" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label asp-for="Degree" class="form-label">
+                                <i class="bi bi-bar-chart me-1 text-success"></i>Max Degree
+                            </label>
+                            <input asp-for="Degree" class="form-control" placeholder="0–100" id="inp_Deg" type="number" min="0" max="100" />
+                            <span asp-validation-for="Degree" class="text-danger small"></span>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label asp-for="MinDegree" class="form-label">
+                                <i class="bi bi-check-circle me-1 text-success"></i>Min Pass
+                            </label>
+                            <input asp-for="MinDegree" class="form-control" placeholder="0–100" id="inp_Min" type="number" min="0" max="100" />
+                            <span asp-validation-for="MinDegree" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="DepartmentId" class="form-label">
+                            <i class="bi bi-building me-1 text-success"></i>Department
+                        </label>
+                        <select asp-for="DepartmentId" class="form-select" asp-items="ViewBag.DepartmentId" id="inp_Dept">
+                            <option value="">— Select Department —</option>
+                        </select>
+                        <span asp-validation-for="DepartmentId" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success px-4">
+                            <i class="bi bi-save me-1"></i> Save Course
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Cancel
+                        </a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Degree" class="control-label"></label>
-                <input asp-for="Degree" class="form-control" />
-                <span asp-validation-for="Degree" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MinDegree" class="control-label"></label>
-                <input asp-for="MinDegree" class="form-control" />
-                <span asp-validation-for="MinDegree" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label"></label>
-                <select asp-for="DepartmentId" class ="form-control" asp-items="ViewBag.DepartmentId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        (function () {
+            const form = document.getElementById('createCourseForm');
+            const name = document.getElementById('inp_Name');
+            const deg  = document.getElementById('inp_Deg');
+            const min  = document.getElementById('inp_Min');
+            const dept = document.getElementById('inp_Dept');
+            const se = (el, m) => { el.classList.add('is-invalid'); const s=el.nextElementSibling; if(s&&s.tagName==='SPAN')s.textContent=m; return false; };
+            const ce = (el)    => { el.classList.remove('is-invalid'); el.classList.add('is-valid'); const s=el.nextElementSibling; if(s&&s.tagName==='SPAN')s.textContent=''; return true; };
+            const vN = () => { const v=name.value.trim(); if(!v) return se(name,'Required.'); if(!/^[a-zA-Z\s]+$/.test(v)) return se(name,'Letters only.'); return ce(name); };
+            const vD = () => { const v=parseInt(deg.value); if(deg.value===''||isNaN(v)||v<0||v>100) return se(deg,'0–100 required.'); return ce(deg); };
+            const vM = () => {
+                const vd=parseInt(deg.value), vm=parseInt(min.value);
+                if(min.value===''||isNaN(vm)||vm<0||vm>100) return se(min,'0–100 required.');
+                if(!isNaN(vd) && vm > vd) return se(min,'Min must be ≤ Max.');
+                return ce(min);
+            };
+            const vDept = () => { if(!dept.value) return se(dept,'Select a department.'); return ce(dept); };
+            name.addEventListener('input', vN); deg.addEventListener('input', vD);
+            min.addEventListener('input', vM); dept.addEventListener('change', vDept);
+            form.addEventListener('submit', e => { if(!(vN()&vD()&vM()&vDept())) e.preventDefault(); });
+        })();
+    </script>
+}

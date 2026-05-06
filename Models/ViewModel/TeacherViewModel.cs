@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Task_Day_2_ASP.Models.Entities
+namespace Task_Day_2_ASP.Models.ViewModel
 {
-    public class Teacher
+    public class TeacherViewModel
     {
         public int Id { get; set; }
 
@@ -14,18 +12,13 @@ namespace Task_Day_2_ASP.Models.Entities
         public string? Name { get; set; }
 
         [Required(ErrorMessage = "Salary is required.")]
-        [Range(0, 999999.99, ErrorMessage = "Salary must be between 0 and 999,999.99.")]
+        [Range(0, 999999.99, ErrorMessage = "Salary must be a positive value.")]
         public decimal Salary { get; set; }
 
-        [ForeignKey("Course")]
         public int? CourseId { get; set; }
-
-        [ForeignKey("Department")]
         public int? DepartmentId { get; set; }
 
-     
-        
-        public Course? Course { get; set; }
-        public Department? Department { get; set; }
+        public string? CourseName { get; set; }
+        public string? DepartmentName { get; set; }
     }
 }

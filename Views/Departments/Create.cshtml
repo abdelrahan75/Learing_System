@@ -1,36 +1,68 @@
 ﻿@model Task_Day_2_ASP.Models.Entities.Department
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add Department";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="page-header" style="background:linear-gradient(135deg,#f59e0b,#d97706)">
+    <h1><i class="bi bi-building-add me-2"></i>Add New Department</h1>
+    <p>Fill in the details to create a new department.</p>
+</div>
 
-<h4>Department</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="card ls-card">
+            <div class="card-body p-4">
+                <form asp-action="Create" id="createDeptForm" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 py-2 mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">
+                            <i class="bi bi-building me-1 text-warning"></i>Department Name
+                        </label>
+                        <input asp-for="Name" class="form-control" placeholder="e.g. Computer Science" id="inp_Name" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="MgrName" class="form-label">
+                            <i class="bi bi-person-check me-1 text-warning"></i>Manager Name
+                        </label>
+                        <input asp-for="MgrName" class="form-control" placeholder="e.g. Dr. Hassan Ali" id="inp_Mgr" />
+                        <span asp-validation-for="MgrName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-warning px-4">
+                            <i class="bi bi-save me-1"></i> Save Department
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Cancel
+                        </a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="MgrName" class="control-label"></label>
-                <input asp-for="MgrName" class="form-control" />
-                <span asp-validation-for="MgrName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        (function () {
+            const form = document.getElementById('createDeptForm');
+            const name = document.getElementById('inp_Name');
+            const mgr  = document.getElementById('inp_Mgr');
+            const se = (el, m) => { el.classList.add('is-invalid'); const s=el.nextElementSibling; if(s&&s.tagName==='SPAN')s.textContent=m; return false; };
+            const ce = (el)    => { el.classList.remove('is-invalid'); el.classList.add('is-valid'); const s=el.nextElementSibling; if(s&&s.tagName==='SPAN')s.textContent=''; return true; };
+            const vN = () => { const v=name.value.trim(); if(!v) return se(name,'Department name is required.'); if(v.length<2||v.length>50) return se(name,'2–50 characters.'); if(!/^[a-zA-Z\s]+$/.test(v)) return se(name,'Letters only.'); return ce(name); };
+            const vM = () => { const v=mgr.value.trim();  if(!v) return se(mgr,'Manager name is required.');  if(v.length<2||v.length>50) return se(mgr,'2–50 characters.'); if(!/^[a-zA-Z\s.]+$/.test(v)) return se(mgr,'Letters only.'); return ce(mgr); };
+            name.addEventListener('input', vN);
+            mgr.addEventListener('input', vM);
+            form.addEventListener('submit', e => { if (!(vN() & vM())) e.preventDefault(); });
+        })();
+    </script>
+}

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Task_Day_2_ASP.Models.Entities;
 
 namespace Task_Day_2_ASP.Models.ViewModel
@@ -7,10 +8,16 @@ namespace Task_Day_2_ASP.Models.ViewModel
     {
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "Name is required.")]
+        [StringLength(50, MinimumLength = 2)]
         public string? Name { get; set; }
 
-        public int Age { get; set; }    
+        [Required(ErrorMessage = "Age is required.")]
+        [Range(5, 100)]
+        public int Age { get; set; }
+
         public int? DepartmentId { get; set; }
-        public List<Department>? departments { get; set; }
+        public string? DepartmentName { get; set; }
+
     }
 }

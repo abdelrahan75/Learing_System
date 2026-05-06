@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Task_Day_2_ASP.Data.Dbcontext;
 using Task_Day_2_ASP.Models.Entities;
+using Task_Day_2_ASP.Models.ViewModel;
 
-namespace Task_Day_2_ASP.Models.Reposiotoriey
+namespace Task_Day_2_ASP.Models.Reposiotoriey.RepoStudent
 {
     public class StudentRepo : IstudentRepo
     {
@@ -36,6 +37,8 @@ namespace Task_Day_2_ASP.Models.Reposiotoriey
         {
             return _context.Students.FirstOrDefault(d => d.Id == id);
         }
+
+       
         // 3- Extra
         public Student GetByIdWithLoading(int id)
         {
@@ -45,6 +48,15 @@ namespace Task_Day_2_ASP.Models.Reposiotoriey
         public List<Department> GetAllDepartments()
         {
             return _context.Departments.ToList();
+        }
+        public Course GetCourseById(int id)
+        {
+          return  _context.Courses.FirstOrDefault(c => c.Id == id);
+        }
+
+        public StuCrsRes GetStudentCourseResult(int studentId, int courseId)
+        { 
+          return _context.StuCrsRes.FirstOrDefault(sc => sc.StudentId == studentId && sc.CourseId == courseId);
         }
     }
 }

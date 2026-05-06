@@ -1,40 +1,117 @@
 ﻿@model Task_Day_2_ASP.Models.Entities.Student
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Student";
+    Layout = "~/Views/Shared/_Layout.cshtml";
    
 }
 
-<h1>Create</h1>
+<div class="page-header" style="background:linear-gradient(135deg,#3b82f6,#6366f1)">
+    <h1><i class="bi bi-person-plus me-2"></i>Add New Student</h1>
+    <p>Fill in the details below to enroll a new student.</p>
+</div>
 
-<h4>Student</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="card ls-card">
+            <div class="card-body p-4">
+                <form asp-action="Create" id="createStudentForm" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 py-2 mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">
+                            <i class="bi bi-person me-1 text-primary"></i>Student Name
+                        </label>
+                        <input asp-for="Name" class="form-control" placeholder="e.g. Ahmed Mohamed" id="inp_Name" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Age" class="form-label">
+                            <i class="bi bi-calendar me-1 text-primary"></i>Age
+                        </label>
+                        <input asp-for="Age" class="form-control" placeholder="Between 5 and 100" id="inp_Age" type="number" min="5" max="100" />
+                        <span asp-validation-for="Age" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="DepartmentId" class="form-label">
+                            <i class="bi bi-building me-1 text-primary"></i>Department
+                        </label>
+                        <select asp-for="DepartmentId" class="form-select" asp-items="ViewBag.DepartmentId" id="inp_Dept">
+                            <option value="">— Select Department —</option>
+                        </select>
+                        <span asp-validation-for="DepartmentId" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-save me-1"></i> Save Student
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Cancel
+                        </a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Age" class="control-label"></label>
-                <input asp-for="Age" class="form-control" />
-                <span asp-validation-for="Age" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label"></label>
-                <select asp-for="DepartmentId" class ="form-control" asp-items="ViewBag.DepartmentId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Enhanced real-time client validation
+        (function () {
+            const form   = document.getElementById('createStudentForm');
+            const name   = document.getElementById('inp_Name');
+            const age    = document.getElementById('inp_Age');
+            const dept   = document.getElementById('inp_Dept');
+
+            function validateName() {
+                const v = name.value.trim();
+                if (!v) return setError(name, 'Name is required.');
+                if (v.length < 2) return setError(name, 'Minimum 2 characters.');
+                if (v.length > 50) return setError(name, 'Maximum 50 characters.');
+                if (!/^[a-zA-Z\s]+$/.test(v)) return setError(name, 'Letters and spaces only.');
+                return clearError(name);
+            }
+            function validateAge() {
+                const v = parseInt(age.value);
+                if (!age.value) return setError(age, 'Age is required.');
+                if (isNaN(v) || v < 5 || v > 100) return setError(age, 'Age must be between 5 and 100.');
+                return clearError(age);
+            }
+            function validateDept() {
+                if (!dept.value) return setError(dept, 'Please select a department.');
+                return clearError(dept);
+            }
+            function setError(el, msg) {
+                el.classList.add('is-invalid');
+                el.classList.remove('is-valid');
+                let fb = el.nextElementSibling;
+                if (fb && fb.tagName === 'SPAN') { fb.textContent = msg; }
+                return false;
+            }
+            function clearError(el) {
+                el.classList.remove('is-invalid');
+                el.classList.add('is-valid');
+                let fb = el.nextElementSibling;
+                if (fb && fb.tagName === 'SPAN') { fb.textContent = ''; }
+                return true;
+            }
+
+            name.addEventListener('input', validateName);
+            age.addEventListener('input', validateAge);
+            dept.addEventListener('change', validateDept);
+
+            form.addEventListener('submit', function (e) {
+                const ok = validateName() & validateAge() & validateDept();
+                if (!ok) e.preventDefault();
+            });
+        })();
+    </script>
+}
 

@@ -1,8 +1,164 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
+    var userName = ViewData["UserName"] as string;
+    var visitCount = ViewData["VisitCount"] as int? ?? 0;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Hero -->
+<div class="page-header mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <h1>
+                @if (!string.IsNullOrEmpty(userName))
+                {
+                    <span>Welcome back, @userName! 👋</span>
+                }
+                else
+                {
+                    <span>Welcome to Learning System 🎓</span>
+                }
+            </h1>
+            <p>Manage students, teachers, courses and departments in one place.</p>
+        </div>
+        <div class="text-end">
+            <span class="badge rounded-pill bg-white text-primary fw-bold px-3 py-2" style="font-size:0.9rem;">
+                <i class="bi bi-eye me-1"></i> Session Visit #@visitCount
+            </span>
+        </div>
+    </div>
 </div>
+
+<!-- Quick Nav Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-sm-6 col-lg-3">
+        <a asp-controller="Students" asp-action="Index" class="text-decoration-none">
+            <div class="card ls-card h-100 text-white" style="background:linear-gradient(135deg,#3b82f6,#6366f1)">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-person-badge" style="font-size:2.5rem;"></i>
+                    <h5 class="mt-2 mb-0 fw-bold">Students</h5>
+                    <p class="mb-0 small opacity-75">View &amp; manage students</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <a asp-controller="Teachers" asp-action="Index" class="text-decoration-none">
+            <div class="card ls-card h-100 text-white" style="background:linear-gradient(135deg,#8b5cf6,#a855f7)">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-person-workspace" style="font-size:2.5rem;"></i>
+                    <h5 class="mt-2 mb-0 fw-bold">Teachers</h5>
+                    <p class="mb-0 small opacity-75">View &amp; manage teachers</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <a asp-controller="Courses" asp-action="Index" class="text-decoration-none">
+            <div class="card ls-card h-100 text-white" style="background:linear-gradient(135deg,#10b981,#059669)">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-journal-bookmark" style="font-size:2.5rem;"></i>
+                    <h5 class="mt-2 mb-0 fw-bold">Courses</h5>
+                    <p class="mb-0 small opacity-75">View &amp; manage courses</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <a asp-controller="Departments" asp-action="Index" class="text-decoration-none">
+            <div class="card ls-card h-100 text-white" style="background:linear-gradient(135deg,#f59e0b,#d97706)">
+                <div class="card-body text-center py-4">
+                    <i class="bi bi-building" style="font-size:2.5rem;"></i>
+                    <h5 class="mt-2 mb-0 fw-bold">Departments</h5>
+                    <p class="mb-0 small opacity-75">View &amp; manage departments</p>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- Cookie: Remember Name -->
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card ls-card">
+            <div class="card-header" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;">
+                <i class="bi bi-person-circle me-2"></i>Cookie — Remember Your Name
+            </div>
+            <div class="card-body p-4">
+                <p class="text-muted small">Your name is stored in a <strong>cookie</strong> (expires in 7 days) so we remember you across sessions.</p>
+                @if (!string.IsNullOrEmpty(userName))
+                {
+                    <div class="alert alert-success rounded-3 d-flex justify-content-between align-items-center py-2">
+                        <span><i class="bi bi-cookie me-2"></i>Saved as: <strong>@userName</strong></span>
+                        <form asp-action="ClearName" asp-controller="Home" method="post" class="mb-0">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Clear</button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <form asp-action="SetName" asp-controller="Home" method="post" id="nameForm">
+                        @Html.AntiForgeryToken()
+                        <div class="input-group">
+                            <input type="text" name="userName" class="form-control"
+                                   placeholder="Enter your name..." id="nameInput"
+                                   maxlength="50" />
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Save
+                            </button>
+                        </div>
+                        <div id="nameError" class="text-danger small mt-1" style="display:none;">
+                            Please enter a name (letters only).
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card ls-card">
+            <div class="card-header" style="background:linear-gradient(135deg,#3b82f6,#6366f1);color:white;">
+                <i class="bi bi-clock-history me-2"></i>Session Info
+            </div>
+            <div class="card-body p-4">
+                <p class="text-muted small">The <strong>session</strong> tracks your activity while your browser is open.</p>
+                <table class="table table-sm table-borderless mb-0">
+                    <tr>
+                        <td class="text-muted fw-600 small">Visit Count</td>
+                        <td><span class="badge bg-primary rounded-pill">@visitCount</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted fw-600 small">Last Visit</td>
+                        <td class="small">@(Context.Session.GetString("LastVisit") ?? "—")</td>
+                    </tr>
+                </table>
+                <a asp-controller="State" asp-action="Demo" class="btn btn-outline-primary btn-sm mt-3">
+                    <i class="bi bi-shield-lock me-1"></i> Full Session &amp; Cookie Demo
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Client-side validation for name field
+        document.getElementById('nameForm')?.addEventListener('submit', function (e) {
+            const val = document.getElementById('nameInput').value.trim();
+            const err = document.getElementById('nameError');
+            if (!val || !/^[a-zA-Z\s]+$/.test(val)) {
+                e.preventDefault();
+                err.style.display = 'block';
+                document.getElementById('nameInput').classList.add('is-invalid');
+            } else {
+                err.style.display = 'none';
+            }
+        });
+        document.getElementById('nameInput')?.addEventListener('input', function () {
+            this.classList.remove('is-invalid');
+            document.getElementById('nameError').style.display = 'none';
+        });
+    </script>
+}
+

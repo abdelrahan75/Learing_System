@@ -1,37 +1,84 @@
 ﻿@model Task_Day_2_ASP.Models.Entities.Student
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Student Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Student</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Age)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Age)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Department)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Department.MgrName)
-        </dd>
-    </dl>
+<div class="page-header" style="background:linear-gradient(135deg,#3b82f6,#6366f1)">
+    <h1><i class="bi bi-person-lines-fill me-2"></i>Student Details</h1>
+    <p>Full profile for <strong>@Model.Name</strong></p>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="card ls-card">
+            <div class="card-header d-flex align-items-center gap-3"
+                 style="background:linear-gradient(135deg,#3b82f6,#6366f1);color:white;">
+                <div style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">
+                    👤
+                </div>
+                <div>
+                    <div class="fw-bold fs-5">@Model.Name</div>
+                    <div class="opacity-75 small">Student ID: #@Model.Id</div>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <dl class="row ls-detail-row g-3">
+                    <dt class="col-sm-4">Name</dt>
+                    <dd class="col-sm-8 fw-600">@Model.Name</dd>
+
+                    <dt class="col-sm-4">Age</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge bg-info text-white rounded-pill px-3">@Model.Age years old</span>
+                    </dd>
+
+                    <dt class="col-sm-4">Department</dt>
+                    <dd class="col-sm-8">
+                        @if (Model.Department != null)
+                        {
+                            <span class="badge rounded-pill px-3 py-1"
+                                  style="background:#ede9fe;color:#6d28d9;font-weight:600;font-size:0.85rem">
+                                @Model.Department.Name
+                            </span>
+                        }
+                        else
+                        {
+
+                            <span class="text-muted">—</span>
+                        }
+                    </dd>
+
+                    @if (Model.Department != null)
+                    {
+                        <dt class="col-sm-4">Manager</dt>
+                        <dd class="col-sm-8 text-muted">@Model.Department.MgrName</dd>
+                    }
+                </dl>
+
+                @if (Model.StuCrsResults?.Any() == true)
+                {
+                    <hr />
+                    <h6 class="fw-bold text-primary mb-3"><i class="bi bi-journal-bookmark me-2"></i>Enrolled Courses</h6>
+                    @foreach (var r in Model.StuCrsResults)
+                    {
+                        <div class="d-flex justify-content-between align-items-center border rounded-3 px-3 py-2 mb-2">
+                            <span class="small fw-500">Course #@r.CourseId</span>
+                            <span class="badge @(r.Degree >= 50 ? "bg-success" : "bg-danger") rounded-pill">
+                                @r.Degree pts
+                            </span>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="card-footer bg-transparent d-flex gap-2 p-4">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                    <i class="bi bi-pencil me-1"></i> Edit
+                </a>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> Back
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

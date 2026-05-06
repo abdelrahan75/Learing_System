@@ -1,0 +1,61 @@
+﻿@model Task_Day_2_ASP.Models.ViewModel.StudentViewModel
+@{
+    ViewData["Title"] = "Student (ViewModel)";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">
+    <h1><i class="bi bi-person-vcard me-2"></i>Student Details — ViewModel</h1>
+    <p>This view uses a <strong>ViewModel</strong> (not the raw Entity) to display student info.</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="card ls-card">
+            <div class="card-header d-flex align-items-center gap-3"
+                 style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;">
+                <span style="font-size:2rem;">🎓</span>
+                <div>
+                    <div class="fw-bold fs-5">@Model.Name</div>
+                    <div class="opacity-75 small">ID: #@Model.Id · StudentViewModel</div>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <dl class="row ls-detail-row g-3">
+                    <dt class="col-sm-4">Full Name</dt>
+                    <dd class="col-sm-8 fw-bold">@Model.Name</dd>
+
+                    <dt class="col-sm-4">Age</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge bg-info text-white rounded-pill px-3">@Model.Age yrs</span>
+                    </dd>
+
+                    <dt class="col-sm-4">Department ID</dt>
+                    <dd class="col-sm-8 text-muted">@(Model.DepartmentId?.ToString() ?? "—")</dd>
+
+                    <dt class="col-sm-4">Department</dt>
+                    <dd class="col-sm-8">
+                        @if (!string.IsNullOrEmpty(Model.DepartmentName))
+                        {
+                            <span class="badge rounded-pill px-3 py-1"
+                                  style="background:#ede9fe;color:#6d28d9;font-weight:600">
+                                @Model.DepartmentName
+                            </span>
+                        }
+                        else
+                        {
+
+                            <span class="text-muted">—</span>
+                        }
+                    </dd>
+                </dl>
+            </div>
+            <div class="card-footer bg-transparent p-4">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Students
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,22 +1,56 @@
 ﻿@using Task_Day_2_ASP.Models.ViewModel
-
-@{
-    ViewData["Title"] = "ShowResult";
-    Layout = "~/Views/Students/Create.cshtml";
-}
 @model StudentCourseResultViewModel
+@{
+    ViewData["Title"] = "Student Result";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool passed = Model.Color == "green";
+}
 
-<h2>Student Degree</h2>
+<div class="page-header" style="background:linear-gradient(135deg,@(passed ? "#10b981,#059669" : "#ef4444,#b91c1c"))">
+    <h1>
+        @if (passed)
+        { <i class="bi bi-patch-check-fill me-2"></i> }
+        else
+        { <i class="bi bi-patch-exclamation-fill me-2"></i> }
+        Course Result
+    </h1>
+    <p>@Model.StudentName — @Model.CourseName</p>
+</div>
 
-<p>
-    Student Name : @Model.StudentName
-</p>
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card ls-card text-center">
+            <div class="card-body p-5">
+                <!-- Big result circle -->
+                <div class="mx-auto mb-4 d-flex align-items-center justify-content-center rounded-circle"
+                     style="width:110px;height:110px;
+                            background:@(passed ? "linear-gradient(135deg,#10b981,#059669)" : "linear-gradient(135deg,#ef4444,#b91c1c)");
+                            box-shadow:0 8px 25px @(passed ? "rgba(16,185,129,0.4)" : "rgba(239,68,68,0.4)");">
+                    <span style="font-size:2.5rem;font-weight:700;color:white;">@Model.Degree</span>
+                </div>
 
-<p>
-    Course Name : @Model.CourseName
-</p>
+                <h4 class="fw-bold mb-1">@Model.StudentName</h4>
+                <p class="text-muted mb-3">@Model.CourseName</p>
 
-<p style="color:@Model.Color">
-    Degree : @Model.Degree
-</p>
-
+                <span class="badge rounded-pill px-4 py-2 fs-6"
+                      style="background:@(passed ? "#d1fae5" : "#fee2e2");
+                             color:@(passed ? "#065f46" : "#991b1b");
+                             font-weight:700;">
+                    @if (passed)
+                    {
+                        <i class="bi bi-check-circle me-1"></i> <text>PASSED</text>
+                    }
+                    else
+                    {
+                        <i class="bi bi-x-circle me-1"></i> <text>FAILED</text>
+                    }
+                </span>
+            </div>
+            <div class="card-footer bg-transparent p-4">
+                <a asp-controller="Students" asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Students
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,15 +1,37 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
-    Layout = "_mylayout";
-}
-<h1>@ViewData["Title"]</h1>
-
-<p>Use this page to detail your site's privacy policy.</p>
-
-@section Header {
-    <h4>Hello Header</h4>
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@* @section Footer {
-    <h4>Hello Footer</h4>
-} *@
+<div class="page-header" style="background:linear-gradient(135deg,#1e1b4b,#4c1d95)">
+    <h1><i class="bi bi-shield-check me-2"></i>Privacy Policy</h1>
+    <p>How we handle your data in Learning System.</p>
+</div>
+
+<div class="card ls-card">
+    <div class="card-body p-4">
+        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-cookie me-2"></i>Cookies</h5>
+        <p class="text-muted">
+            This application uses <strong>HttpOnly cookies</strong> to store your preferences (such as your display name and theme).
+            Cookies are marked <code>HttpOnly</code> so they cannot be accessed by JavaScript, and <code>SameSite=Lax</code>
+            to protect against cross-site request forgery. Preference cookies expire after <strong>7–30 days</strong>.
+        </p>
+
+        <h5 class="fw-bold text-primary mb-3 mt-4"><i class="bi bi-clock-history me-2"></i>Sessions</h5>
+        <p class="text-muted">
+            Sessions are stored <strong>server-side</strong> using ASP.NET Core's distributed memory cache.
+            The session cookie (<code>.LearningSystem.Session</code>) is marked <code>HttpOnly</code> and <code>IsEssential</code>.
+            Sessions expire after <strong>30 minutes of inactivity</strong>.
+        </p>
+
+        <h5 class="fw-bold text-primary mb-3 mt-4"><i class="bi bi-shield-lock me-2"></i>CSRF Protection</h5>
+        <p class="text-muted">
+            All forms use ASP.NET Core's built-in <strong>Antiforgery tokens</strong> (<code>[ValidateAntiForgeryToken]</code>)
+            to prevent cross-site request forgery attacks.
+        </p>
+
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">
+            <i class="bi bi-arrow-left me-1"></i> Back to Home
+        </a>
+    </div>
+</div>

@@ -3,47 +3,402 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Task_Day_2_ASP</title>
+    <title>@ViewData["Title"] — 🎓 Learning System</title>
+
+    <!-- Bootstrap 5 -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Site CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Task_Day_2_ASP.styles.css" asp-append-version="true" />
+
+    <style>
+        :root {
+            --ls-primary: #6366f1;
+            --ls-secondary: #8b5cf6;
+            --ls-success: #10b981;
+            --ls-warning: #f59e0b;
+            --ls-danger: #ef4444;
+            --ls-info: #3b82f6;
+            --ls-dark: #1e1b4b;
+            --ls-light-bg: #f8fafc;
+        }
+
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* ── Navbar ─────────────────────────────────────────────────── */
+        .ls-navbar {
+            background: linear-gradient(135deg, var(--ls-dark) 0%, #312e81 50%, #4c1d95 100%);
+            box-shadow: 0 4px 20px rgba(99,102,241,0.4);
+            padding: 0.6rem 0;
+        }
+
+            .ls-navbar .navbar-brand {
+                font-size: 1.4rem;
+                font-weight: 700;
+                color: #fff !important;
+                letter-spacing: -0.5px;
+            }
+
+            .ls-navbar .nav-link {
+                color: rgba(255,255,255,0.85) !important;
+                font-weight: 500;
+                padding: 0.5rem 1rem;
+                border-radius: 8px;
+                transition: all 0.2s ease;
+                font-size: 0.9rem;
+            }
+
+                .ls-navbar .nav-link:hover,
+                .ls-navbar .nav-link.active {
+                    color: #fff !important;
+                    background: rgba(255,255,255,0.15);
+                }
+
+                .ls-navbar .nav-link i {
+                    margin-right: 4px;
+                }
+
+        /* ── Session Badge ───────────────────────────────────────────── */
+        .session-badge {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 0.25rem 0.85rem;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.8rem;
+        }
+
+        /* ── Page wrapper ────────────────────────────────────────────── */
+        body {
+            background: var(--ls-light-bg);
+        }
+
+        /* ── Toast Notifications ─────────────────────────────────────── */
+        .ls-alert {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(16,185,129,0.25);
+            font-weight: 500;
+        }
+
+        .ls-alert-danger {
+            box-shadow: 0 4px 15px rgba(239,68,68,0.25);
+        }
+
+        /* ── Page Header Banner ──────────────────────────────────────── */
+        .page-header {
+            background: linear-gradient(135deg, var(--ls-primary), var(--ls-secondary));
+            color: white;
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 25px rgba(99,102,241,0.3);
+        }
+
+            .page-header h1 {
+                font-weight: 700;
+                margin: 0;
+                font-size: 1.8rem;
+            }
+
+            .page-header p {
+                margin: 0.25rem 0 0;
+                opacity: 0.85;
+                font-size: 0.9rem;
+            }
+
+        /* ── Cards ───────────────────────────────────────────────────── */
+        .ls-card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+            .ls-card .card-header {
+                font-weight: 600;
+                font-size: 1rem;
+                padding: 1rem 1.25rem;
+                border: none;
+            }
+
+        /* ── Tables ──────────────────────────────────────────────────── */
+        .ls-table {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+            .ls-table thead th {
+                background: linear-gradient(135deg, var(--ls-dark), #312e81) !important;
+                color: white;
+                font-weight: 600;
+                font-size: 0.85rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                border: none;
+                padding: 1rem;
+            }
+
+            .ls-table tbody tr {
+                transition: all 0.15s ease;
+                border-color: #f1f5f9;
+            }
+
+                .ls-table tbody tr:hover {
+                    background: #f0f4ff;
+                    transform: scale(1.002);
+                }
+
+            .ls-table tbody td {
+                padding: 0.85rem 1rem;
+                vertical-align: middle;
+                color: #374151;
+            }
+
+        /* ── Buttons ─────────────────────────────────────────────────── */
+        .btn {
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            padding: 0.45rem 1.1rem;
+            transition: all 0.2s ease;
+        }
+
+            .btn:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            }
+
+        .btn-primary {
+            background: var(--ls-primary);
+            border-color: var(--ls-primary);
+        }
+
+        .btn-success {
+            background: var(--ls-success);
+            border-color: var(--ls-success);
+        }
+
+        .btn-warning {
+            background: var(--ls-warning);
+            border-color: var(--ls-warning);
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: var(--ls-danger);
+            border-color: var(--ls-danger);
+        }
+
+        .btn-info {
+            background: var(--ls-info);
+            border-color: var(--ls-info);
+            color: #fff;
+        }
+
+        .btn-sm {
+            padding: 0.3rem 0.75rem;
+            font-size: 0.8rem;
+        }
+
+        /* ── Forms ───────────────────────────────────────────────────── */
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e5e7eb;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: var(--ls-primary);
+                box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+            }
+
+            .form-control.input-validation-error {
+                border-color: var(--ls-danger);
+            }
+
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.875rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .text-danger {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* ── Footer ──────────────────────────────────────────────────── */
+        .ls-footer {
+            background: linear-gradient(135deg, var(--ls-dark), #312e81);
+            color: rgba(255,255,255,0.7);
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+            font-size: 0.875rem;
+        }
+
+            .ls-footer a {
+                color: rgba(255,255,255,0.85);
+                text-decoration: none;
+            }
+
+                .ls-footer a:hover {
+                    color: #fff;
+                }
+
+        /* ── DL Details ─────────────────────────────────────────────── */
+        .ls-detail-row dt {
+            color: #6b7280;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .ls-detail-row dd {
+            color: #111827;
+            font-size: 0.95rem;
+        }
+
+        /* ── Delete warning card ─────────────────────────────────────── */
+        .delete-card {
+            border: 2px solid #fee2e2;
+            border-radius: 16px;
+            background: #fff5f5;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Task_Day_2_ASP</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg ls-navbar">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    🎓 Learning System
+                </a>
+                <button class="navbar-toggler border-0" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#navbarMain">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <div class="collapse navbar-collapse" id="navbarMain">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house-door"></i> Home
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-controller="Students" asp-action="Index">
+                                <i class="bi bi-person-badge"></i> Students
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Teachers" asp-action="Index">
+                                <i class="bi bi-person-workspace"></i> Teachers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Courses" asp-action="Index">
+                                <i class="bi bi-journal-bookmark"></i> Courses
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Departments" asp-action="Index">
+                                <i class="bi bi-building"></i> Departments
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="State" asp-action="Demo">
+                                <i class="bi bi-shield-lock"></i> Session Demo
+                            </a>
                         </li>
                     </ul>
+
+                    @{
+                        var sessionName = Context.Session.GetString("WelcomeUser");
+                        var visitCount = Context.Session.GetInt32("VisitCount") ?? 0;
+                    }
+                    @if (sessionName != null)
+                    {
+                        <span class="session-badge me-2">
+                            <i class="bi bi-person-check"></i> @sessionName
+                        </span>
+                    }
+                    @if (visitCount > 0)
+                    {
+                        <span class="session-badge">
+                            <i class="bi bi-eye"></i> Visit #@visitCount
+                        </span>
+                    }
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+
+    @if (TempData["NotificationAdded"] != null)
+    {
+        <div class="container mt-3">
+            <div class="alert alert-success alert-dismissible fade show ls-alert" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                @TempData["NotificationAdded"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </div>
+    }
+    @if (TempData["NotificationError"] != null)
+    {
+        <div class="container mt-3">
+            <div class="alert alert-danger alert-dismissible fade show ls-alert ls-alert-danger" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                @TempData["NotificationError"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </div>
+    }
+
+    <div class="container mt-4">
+        <main role="main" class="pb-5">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Task_Day_2_ASP - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="ls-footer">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+                <i class="bi bi-mortarboard-fill me-1"></i>
+                &copy; @DateTime.Now.Year — Learning System
+            </div>
+            <div class="d-flex gap-3">
+                <a asp-controller="Home" asp-action="Privacy">
+                    <i class="bi bi-shield-check me-1"></i>Privacy
+                </a>
+                <a asp-controller="State" asp-action="Demo">
+                    <i class="bi bi-database me-1"></i>Session Info
+                </a>
+            </div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Auto-dismiss alerts after 4 seconds -->
+    <script>
+        setTimeout(() => {
+            document.querySelectorAll('.alert').forEach(el => {
+                const bsAlert = bootstrap.Alert.getOrCreateInstance(el);
+                bsAlert.close();
+            });
+        }, 4000);
+    </script>
 </body>
 </html>

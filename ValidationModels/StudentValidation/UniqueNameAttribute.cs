@@ -4,7 +4,7 @@ using Task_Day_2_ASP.Models.Entities;
 
 namespace Task_Day_2_ASP.ValidationModels.StudentValidation
 {
-    public class UniqueNameAttribute: ValidationAttribute
+    public class UniqueNameAttribute : ValidationAttribute
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {

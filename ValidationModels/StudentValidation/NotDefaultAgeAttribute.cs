@@ -14,4 +14,4 @@ namespace Task_Day_2_ASP.ValidationModels.StudentValidation
             return ValidationResult.Success;
         }
     }
-    }
+}
