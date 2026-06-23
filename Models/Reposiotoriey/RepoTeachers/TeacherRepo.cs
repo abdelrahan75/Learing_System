@@ -43,17 +43,17 @@ namespace Task_Day_2_ASP.Models.Reposiotoriey.RepoTeachers
                 .ToList();
         }
 
-        public Teacher GetById(int id)
-        { 
+        public Teacher? GetById(int id)
+        {
             return _context.Teachers.FirstOrDefault(t => t.Id == id);
         }
 
-        public Teacher GetByIdWithDetails(int id)
+        public Teacher? GetByIdWithDetails(int id)
         {
-           return _context.Teachers
-               .Include(t => t.Department)
-               .Include(t => t.Course)
-               .FirstOrDefault(t => t.Id == id);
+            return _context.Teachers
+                .Include(t => t.Department)
+                .Include(t => t.Course)
+                .FirstOrDefault(t => t.Id == id);
         }
 
         public bool Exists(int id)

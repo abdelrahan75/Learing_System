@@ -26,7 +26,7 @@ namespace Task_Day_2_ASP.Controllers
         {
             if (id == null) return NotFound();
 
-            Teacher teacher = _repo.GetByIdWithDetails((int)id);
+            Teacher? teacher = _repo.GetByIdWithDetails((int)id);
             if (teacher == null) return NotFound();
 
             return View(teacher);
@@ -62,7 +62,7 @@ namespace Task_Day_2_ASP.Controllers
         {
             if (id == null) return NotFound();
 
-            Teacher teacher = _repo.GetById((int)id);
+            Teacher? teacher = _repo.GetById((int)id);
             if (teacher == null) return NotFound();
 
             ViewData["DepartmentId"] = new SelectList(_repo.GetAllDepartments(), "Id", "Name", teacher.DepartmentId);
@@ -101,7 +101,7 @@ namespace Task_Day_2_ASP.Controllers
         {
             if (id == null) return NotFound();
 
-            Teacher teacher = _repo.GetByIdWithDetails((int)id);
+            Teacher? teacher = _repo.GetByIdWithDetails((int)id);
             if (teacher == null) return NotFound();
 
             return View(teacher);
@@ -112,7 +112,7 @@ namespace Task_Day_2_ASP.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            Teacher teacher = _repo.GetById(id);
+            Teacher? teacher = _repo.GetById(id);
             if (teacher != null)
             {
                 _repo.Delete(teacher);

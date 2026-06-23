@@ -39,12 +39,12 @@ namespace Task_Day_2_ASP.Models.Reposiotoriey.RepoCourses
         { 
             return _context.Courses.Include(c => c.Departments).ToList();
         }
-        public Course GetById(int id)
-        { 
+        public Course? GetById(int id)
+        {
             return _context.Courses.FirstOrDefault(c => c.Id == id);
         }
-        public Course GetByIdWithDepartment(int id)
-        { 
+        public Course? GetByIdWithDepartment(int id)
+        {
             return _context.Courses.Include(c => c.Departments).FirstOrDefault(c => c.Id == id);
         }
         public bool Exists(int id)

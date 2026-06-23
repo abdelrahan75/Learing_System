@@ -1,0 +1,381 @@
+@{
+    ViewData["Title"] = "API Endpoints";
+}
+
+<div class="page-header">
+    <h1><i class="bi bi-diagram-3"></i> API Endpoints Documentation</h1>
+    <p>Complete list of all available endpoints in the Learning System</p>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card ls-card mb-4">
+            <div class="card-header bg-primary text-white">
+                <i class="bi bi-people"></i> Students Controller
+            </div>
+            <div class="card-body p-0">
+                <table class="table ls-table mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">Method</th>
+                            <th style="width: 250px;">Endpoint</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/Students</code></td>
+                            <td>List all students</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/Students/Details/{id}</code></td>
+                            <td>Get student details by ID</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/Students/DetailsOfVM/{id}</code></td>
+                            <td>Get student details as ViewModel</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">GET</span></td>
+                            <td><code>/Students/Create</code></td>
+                            <td>Show create student form</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/Students/Create</code></td>
+                            <td>Create new student</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">GET</span></td>
+                            <td><code>/Students/Edit/{id}</code></td>
+                            <td>Show edit student form</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/Students/Edit/{id}</code></td>
+                            <td>Update student</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">GET</span></td>
+                            <td><code>/Students/Delete/{id}</code></td>
+                            <td>Show delete confirmation</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/Students/Delete</code></td>
+                            <td>Delete student</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/Students/ShowResult</code></td>
+                            <td>Show student course result (params: StuId, CrsId)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card ls-card mb-4">
+            <div class="card-header bg-secondary text-white">
+                <i class="bi bi-person-workspace"></i> Teachers Controller
+            </div>
+            <div class="card-body p-0">
+                <table class="table ls-table mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">Method</th>
+                            <th style="width: 250px;">Endpoint</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/Teachers</code></td>
+                            <td>List all teachers with details</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/Teachers/Details/{id}</code></td>
+                            <td>Get teacher details by ID</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">GET</span></td>
+                            <td><code>/Teachers/Create</code></td>
+                            <td>Show create teacher form</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/Teachers/Create</code></td>
+                            <td>Create new teacher</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">GET</span></td>
+                            <td><code>/Teachers/Edit/{id}</code></td>
+                            <td>Show edit teacher form</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/Teachers/Edit/{id}</code></td>
+                            <td>Update teacher</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">GET</span></td>
+                            <td><code>/Teachers/Delete/{id}</code></td>
+                            <td>Show delete confirmation</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/Teachers/Delete</code></td>
+                            <td>Delete teacher</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card ls-card mb-4">
+            <div class="card-header" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
+                <i class="bi bi-journal-bookmark"></i> Courses Controller
+            </div>
+            <div class="card-body p-0">
+                <table class="table ls-table mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">Method</th>
+                            <th style="width: 250px;">Endpoint</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/Courses</code></td>
+                            <td>List all courses with departments</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/Courses/Details/{id}</code></td>
+                            <td>Get course details by ID</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">GET</span></td>
+                            <td><code>/Courses/Create</code></td>
+                            <td>Show create course form</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/Courses/Create</code></td>
+                            <td>Create new course</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">GET</span></td>
+                            <td><code>/Courses/Edit/{id}</code></td>
+                            <td>Show edit course form</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/Courses/Edit/{id}</code></td>
+                            <td>Update course</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">GET</span></td>
+                            <td><code>/Courses/Delete/{id}</code></td>
+                            <td>Show delete confirmation</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/Courses/Delete</code></td>
+                            <td>Delete course</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card ls-card mb-4">
+            <div class="card-header" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white;">
+                <i class="bi bi-building"></i> Departments Controller
+            </div>
+            <div class="card-body p-0">
+                <table class="table ls-table mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">Method</th>
+                            <th style="width: 250px;">Endpoint</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/Departments</code></td>
+                            <td>List all departments</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/Departments/Details/{id}</code></td>
+                            <td>Get department details with students/courses/teachers</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">GET</span></td>
+                            <td><code>/Departments/Create</code></td>
+                            <td>Show create department form</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/Departments/Create</code></td>
+                            <td>Create new department</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">GET</span></td>
+                            <td><code>/Departments/Edit/{id}</code></td>
+                            <td>Show edit department form</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/Departments/Edit/{id}</code></td>
+                            <td>Update department</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">GET</span></td>
+                            <td><code>/Departments/Delete/{id}</code></td>
+                            <td>Show delete confirmation</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/Departments/Delete</code></td>
+                            <td>Delete department</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card ls-card mb-4">
+            <div class="card-header bg-info text-white">
+                <i class="bi bi-shield-lock"></i> Account Controller
+            </div>
+            <div class="card-body p-0">
+                <table class="table ls-table mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">Method</th>
+                            <th style="width: 250px;">Endpoint</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge bg-primary">GET</span></td>
+                            <td><code>/Account/Register</code></td>
+                            <td>Show registration form</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/Account/Register</code></td>
+                            <td>Register new user</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-primary">GET</span></td>
+                            <td><code>/Account/Login</code></td>
+                            <td>Show login form</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/Account/Login</code></td>
+                            <td>Authenticate user</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-danger">GET</span></td>
+                            <td><code>/Account/Logout</code></td>
+                            <td>Sign out current user</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card ls-card mb-4">
+            <div class="card-header bg-dark text-white">
+                <i class="bi bi-database"></i> State Controller (Session Management)
+            </div>
+            <div class="card-body p-0">
+                <table class="table ls-table mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">Method</th>
+                            <th style="width: 250px;">Endpoint</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/State/Demo</code></td>
+                            <td>Session demo page</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/State/SetSession</code></td>
+                            <td>Set session values (param: Name)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/State/GetAction</code></td>
+                            <td>Get session values</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-warning">POST</span></td>
+                            <td><code>/State/SetWelcome</code></td>
+                            <td>Set welcome user in session</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-danger">GET</span></td>
+                            <td><code>/State/ClearSession</code></td>
+                            <td>Clear all session data</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card ls-card mb-4">
+            <div class="card-header" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white;">
+                <i class="bi bi-house-door"></i> Home Controller
+            </div>
+            <div class="card-body p-0">
+                <table class="table ls-table mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">Method</th>
+                            <th style="width: 250px;">Endpoint</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/</code> or <code>/Home</code></td>
+                            <td>Home page</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge bg-success">GET</span></td>
+                            <td><code>/Home/Privacy</code></td>
+                            <td>Privacy policy page</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+        <i class="bi bi-house-door"></i> Back to Home
+    </a>
+</div>

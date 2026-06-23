@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Task_Day_2_ASP.Data.Configures;
 using Task_Day_2_ASP.Models.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 namespace Task_Day_2_ASP.Data.Dbcontext
     
 {
-    public class LearningDbContext :DbContext
+    public class LearningDbContext:IdentityDbContext<ApplicationUser>
     {
-        
-
         public LearningDbContext (DbContextOptions options) : base(options) { }
 
         public DbSet<Teacher> Teachers { get; set; }
@@ -22,6 +23,7 @@ namespace Task_Day_2_ASP.Data.Dbcontext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration( new StudentConfigure());
             modelBuilder.Entity<StuCrsRes>()
                 .HasKey(s => new { s.StudentId, s.CourseId });

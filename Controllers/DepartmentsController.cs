@@ -32,7 +32,7 @@ namespace Task_Day_2_ASP.Controllers
         {
             if (id == null) return NotFound();
 
-            Department department = _repo.GetByIdWithDetails((int)id);
+            Department? department = _repo.GetByIdWithDetails((int)id);
             if (department == null) return NotFound();
 
             return View(department);
@@ -65,7 +65,7 @@ namespace Task_Day_2_ASP.Controllers
         {
             if (id == null) return NotFound();
 
-            Department department = _repo.GetById((int)id);
+            Department? department = _repo.GetById((int)id);
             if (department == null) return NotFound();
 
             return View(department);
@@ -103,7 +103,7 @@ namespace Task_Day_2_ASP.Controllers
         {
             if (id == null) return NotFound();
 
-            Department department = _repo.GetById((int)id);
+            Department? department = _repo.GetById((int)id);
             if (department == null) return NotFound();
 
             return View(department);
@@ -114,7 +114,7 @@ namespace Task_Day_2_ASP.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            Department department = _repo.GetById(id);
+            Department? department = _repo.GetById(id);
             if (department != null)
             {
                 _repo.Delete(department);

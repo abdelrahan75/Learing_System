@@ -37,7 +37,7 @@ namespace Task_Day_2_ASP.Controllers
                 return NotFound();
             }
 
-            Student student = _context.GetByIdWithLoading((int)id);
+            Student? student = _context.GetByIdWithLoading((int)id);
             if (student == null)
             {
                 return NotFound();
@@ -48,7 +48,7 @@ namespace Task_Day_2_ASP.Controllers
 
         public IActionResult DetailsOfVM(int id)
         {
-            Student student = _context.GetByIdWithLoading(id);
+            Student? student = _context.GetByIdWithLoading(id);
             if (student == null) return NotFound();
 
             var vm = new StudentViewModel
@@ -93,7 +93,7 @@ namespace Task_Day_2_ASP.Controllers
         {
             if (id == null) return NotFound();
 
-            Student student = _context.GetByIdWithLoading((int)id);
+            Student? student = _context.GetByIdWithLoading((int)id);
             if (student == null) return NotFound();
 
             ViewData["DepartmentId"] = new SelectList(_context.GetAllDepartments(), "Id", "Name", student.DepartmentId);
@@ -134,7 +134,7 @@ namespace Task_Day_2_ASP.Controllers
                 return NotFound();
             }
 
-            Student student = _context.GetById((int)id);
+            Student? student = _context.GetById((int)id);
             if (student == null)
             {
                 return NotFound();
@@ -169,9 +169,9 @@ namespace Task_Day_2_ASP.Controllers
 
         public IActionResult ShowResult(int StuId, int CrsId)
         {
-            Student student = _context.GetById(StuId);
-            Course course = _context.GetCourseById(CrsId);
-            StuCrsRes result = _context.GetStudentCourseResult(StuId, CrsId);
+            Student? student = _context.GetById(StuId);
+            Course? course = _context.GetCourseById(CrsId);
+            StuCrsRes? result = _context.GetStudentCourseResult(StuId, CrsId);
 
             if (student == null || course == null || result == null)
                 return NotFound();

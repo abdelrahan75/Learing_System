@@ -1,0 +1,55 @@
+﻿@using Task_Day_2_ASP.Models.ViewModel
+@model ViewModelRegister
+
+</div>
+
+
+
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="card ls-card">
+            <div class="card-body p-4">
+                <form asp-action="Register" id="Register" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 py-2 mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="UserName" class="form-label">
+                            <i class="bi bi-person me-1 text-primary"></i>Student Name
+                        </label>
+                        <input asp-for="UserName" class="form-control" placeholder="e.g. Ahmed Mohamed" id="inp_Name" />
+                        <span asp-validation-for="UserName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label">
+                            <i class="bi bi-calendar me-1 text-primary"></i>Age
+                        </label>
+                        <input asp-for="Password" class="form-control" placeholder="Between 5 and 100" id="inp_Age" type="number" min="5" max="100" />
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="ConfirmPassword" class="form-label">
+                            <i class="bi bi-building me-1 text-primary"></i>Department
+                        </label>
+                        <select asp-for="ConfirmPassword" class="form-select" asp-items="ViewBag.DepartmentId" id="inp_Dept">
+                            <option value="">— Select Department —</option>
+                        </select>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                    </div>
+
+
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-save me-1"></i> Save Student
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -319,6 +319,11 @@
                                 <i class="bi bi-shield-lock"></i> Session Demo
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Api" asp-action="Index">
+                                <i class="bi bi-list-ul"></i> Endpoints
+                            </a>
+                        </li>
                     </ul>
 
                     @{
@@ -337,6 +342,34 @@
                             <i class="bi bi-eye"></i> Visit #@visitCount
                         </span>
                     }
+                    <ul class="navbar-nav ms-2">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link text-light">
+                                    <i class="bi bi-person-circle"></i> @User.Identity.Name
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Logout">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Login">
+                                    <i class="bi bi-box-arrow-in-right"></i> Login
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Register">
+                                    <i class="bi bi-person-plus"></i> Register
+                                </a>
+                            </li>
+                        }
+                    </ul>
                 </div>
             </div>
         </nav>

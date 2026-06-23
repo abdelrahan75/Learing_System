@@ -13,12 +13,12 @@ namespace Task_Day_2_ASP.Models.Reposiotoriey.RepoStudent
 
        
         List<Student> GetAll();
-        Student GetById(int id);
-        Student GetByIdWithLoading(int id);
+        Student? GetById(int id);
+        Student? GetByIdWithLoading(int id);
 
         // Related data
         List<Department> GetAllDepartments();
-        Course GetCourseById(int id);
-        StuCrsRes GetStudentCourseResult(int studentId, int courseId);
+        Course? GetCourseById(int id);
+        StuCrsRes? GetStudentCourseResult(int studentId, int courseId);
     }
 }

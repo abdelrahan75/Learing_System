@@ -7,6 +7,8 @@ using Task_Day_2_ASP.Models.Reposiotoriey.RepoTeachers;
 using Task_Day_2_ASP.Models.Reposiotoriey.RepoStudent;
 using Task_Day_2_ASP.Models.Reposiotoriey.RepoCourses;
 using Task_Day_2_ASP.Models.Reposiotoriey.RepoDepaatment;
+using Task_Day_2_ASP.Models.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace Task_Day_2_ASP
 {
@@ -59,6 +61,9 @@ namespace Task_Day_2_ASP
                 options.Cookie.HttpOnly = true;
             });
 
+            builder.Services.AddIdentity<ApplicationUser,IdentityRole>()
+                .AddEntityFrameworkStores<LearningDbContext>();
+
             var app = builder.Build();
 
             // ── Middleware Pipeline ───────────────────────────────────────────
@@ -75,6 +80,7 @@ namespace Task_Day_2_ASP
             app.UseSession();
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

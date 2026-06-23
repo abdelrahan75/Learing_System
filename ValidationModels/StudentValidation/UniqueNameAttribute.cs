@@ -15,6 +15,7 @@ namespace Task_Day_2_ASP.ValidationModels.StudentValidation
             string? Validname = value.ToString();
 
             LearningDbContext? context = validationContext.GetService(typeof(LearningDbContext)) as LearningDbContext;
+            if (context == null) return ValidationResult.Success;
             Student? newstd = context.Students.FirstOrDefault(S => S.Name == Validname);
 
             if (newstd == null)

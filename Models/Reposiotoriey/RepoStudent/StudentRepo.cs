@@ -33,14 +33,14 @@ namespace Task_Day_2_ASP.Models.Reposiotoriey.RepoStudent
         {
             return _context.Students.ToList();
         }
-        public Student GetById(int id)
+        public Student? GetById(int id)
         {
             return _context.Students.FirstOrDefault(d => d.Id == id);
         }
 
        
         // 3- Extra
-        public Student GetByIdWithLoading(int id)
+        public Student? GetByIdWithLoading(int id)
         {
             return _context.Students.Include(S => S.Department).FirstOrDefault(d => d.Id == id);
         }
@@ -49,14 +49,14 @@ namespace Task_Day_2_ASP.Models.Reposiotoriey.RepoStudent
         {
             return _context.Departments.ToList();
         }
-        public Course GetCourseById(int id)
+        public Course? GetCourseById(int id)
         {
-          return  _context.Courses.FirstOrDefault(c => c.Id == id);
+            return _context.Courses.FirstOrDefault(c => c.Id == id);
         }
 
-        public StuCrsRes GetStudentCourseResult(int studentId, int courseId)
-        { 
-          return _context.StuCrsRes.FirstOrDefault(sc => sc.StudentId == studentId && sc.CourseId == courseId);
+        public StuCrsRes? GetStudentCourseResult(int studentId, int courseId)
+        {
+            return _context.StuCrsRes.FirstOrDefault(sc => sc.StudentId == studentId && sc.CourseId == courseId);
         }
     }
 }

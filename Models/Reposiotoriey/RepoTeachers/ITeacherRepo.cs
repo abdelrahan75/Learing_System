@@ -11,8 +11,8 @@ namespace Task_Day_2_ASP.Models.Reposiotoriey.RepoTeachers
 
         List<Teacher> GetAll();
         List<Teacher> GetAllWithDetails();
-        Teacher GetById(int id);
-        Teacher GetByIdWithDetails(int id);
+        Teacher? GetById(int id);
+        Teacher? GetByIdWithDetails(int id);
         bool Exists(int id);
 
         List<Department> GetAllDepartments();

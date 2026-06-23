@@ -33,12 +33,12 @@ namespace Task_Day_2_ASP.Models.Reposiotoriey.RepoDepaatment
          return  _context.Departments.ToList();
         }
 
-        public Department GetById(int id)
-        { 
+        public Department? GetById(int id)
+        {
             return _context.Departments.FirstOrDefault(d => d.Id == id);
         }
-        public Department GetByIdWithDetails(int id)
-        { 
+        public Department? GetByIdWithDetails(int id)
+        {
             return _context.Departments
                 .Include(d => d.Students)
                 .Include(d => d.Courses)

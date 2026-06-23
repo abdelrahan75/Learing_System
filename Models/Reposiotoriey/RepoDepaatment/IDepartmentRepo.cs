@@ -10,8 +10,8 @@ namespace Task_Day_2_ASP.Models.Reposiotoriey.RepoDepaatment
         void Save();
 
         List<Department> GetAll();
-        Department GetById(int id);
-        Department GetByIdWithDetails(int id);
+        Department? GetById(int id);
+        Department? GetByIdWithDetails(int id);
         bool Exists(int id);
     }
 }

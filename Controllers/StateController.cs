@@ -18,5 +18,30 @@ namespace Task_Day_2_ASP.Controllers
             int? Age = HttpContext.Session.GetInt32("Age");
             return Content($"Name is {Name} and Age is {Age}");
         }
+
+        public IActionResult Demo()
+        {
+            var visitCount = HttpContext.Session.GetInt32("VisitCount") ?? 0;
+            visitCount++;
+            HttpContext.Session.SetInt32("VisitCount", visitCount);
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult SetWelcome(string userName)
+        {
+            if (!string.IsNullOrWhiteSpace(userName))
+            {
+                HttpContext.Session.SetString("WelcomeUser", userName);
+            }
+            return RedirectToAction(nameof(Demo));
+        }
+
+        public IActionResult ClearSession()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction(nameof(Demo));
+        }
     }
 }

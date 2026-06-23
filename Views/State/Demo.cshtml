@@ -1,0 +1,118 @@
+@{
+    ViewData["Title"] = "Session Demo";
+    var sessionName = Context.Session.GetString("WelcomeUser");
+    var visitCount = Context.Session.GetInt32("VisitCount") ?? 0;
+    var storedName = Context.Session.GetString("name");
+    var storedAge = Context.Session.GetInt32("Age");
+}
+
+<div class="page-header">
+    <h1><i class="bi bi-shield-lock me-2"></i>Session Demo</h1>
+    <p>Explore ASP.NET Core Session State Management</p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card ls-card mb-4">
+            <div class="card-header bg-primary text-white">
+                <i class="bi bi-person-plus me-2"></i>Set Welcome User
+            </div>
+            <div class="card-body">
+                <form asp-action="SetWelcome" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Your Name</label>
+                        <input type="text" name="userName" class="form-control" 
+                               placeholder="Enter your name..." />
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i>Save to Session
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card ls-card mb-4">
+            <div class="card-header bg-info text-white">
+                <i class="bi bi-database me-2"></i>Session Data
+            </div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <tr>
+                        <th>Welcome User:</th>
+                        <td>
+                            @if (sessionName != null)
+                            {
+                                <span class="badge bg-success">@sessionName</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Not set</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Visit Count:</th>
+                        <td><span class="badge bg-primary">@visitCount</span></td>
+                    </tr>
+                    <tr>
+                        <th>Stored Name:</th>
+                        <td>
+                            @if (storedName != null)
+                            {
+                                <span class="badge bg-secondary">@storedName</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Not set</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Stored Age:</th>
+                        <td>
+                            @if (storedAge != null)
+                            {
+                                <span class="badge bg-secondary">@storedAge</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Not set</span>
+                            }
+                        </td>
+                    </tr>
+                </table>
+
+                <a asp-action="ClearSession" class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash me-1"></i>Clear Session
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card ls-card">
+            <div class="card-header bg-secondary text-white">
+                <i class="bi bi-code-square me-2"></i>Quick API Endpoints
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Test these endpoints directly:</p>
+                
+                <div class="list-group">
+                    <a asp-action="SetSession" asp-route-name="JohnDoe" class="list-group-item list-group-item-action">
+                        <i class="bi bi-arrow-right-circle me-2"></i>
+                        <code>SetSession?Name=JohnDoe</code>
+                    </a>
+                    <a asp-action="GetAction" class="list-group-item list-group-item-action">
+                        <i class="bi bi-arrow-right-circle me-2"></i>
+                        <code>GetAction</code>
+                    </a>
+                </div>
+
+                <div class="alert alert-info mt-3 mb-0">
+                    <i class="bi bi-lightbulb me-2"></i>
+                    <strong>Tip:</strong> Session is configured for 30 minutes idle timeout.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

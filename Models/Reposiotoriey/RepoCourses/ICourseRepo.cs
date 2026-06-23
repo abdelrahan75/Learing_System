@@ -11,8 +11,8 @@ namespace Task_Day_2_ASP.Models.Reposiotoriey.RepoCourses
 
         List<Course> GetAll();
         List<Course> GetAllWithDepartments();
-        Course GetById(int id);
-        Course GetByIdWithDepartment(int id);
+        Course? GetById(int id);
+        Course? GetByIdWithDepartment(int id);
         bool Exists(int id);
 
         List<Department> GetAllDepartments();
