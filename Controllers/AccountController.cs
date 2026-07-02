@@ -37,6 +37,7 @@ namespace Task_Day_2_ASP.Controllers
                 IdentityResult res = await _userManager.CreateAsync(user, viewModelRegister.Password);
                 if (res.Succeeded)
                 {
+                    _userManager.AddToRoleAsync(user,"Admin")
                     await _signInManager.SignInAsync(user, false);
                     return RedirectToAction("Index", "Students");
                 }
